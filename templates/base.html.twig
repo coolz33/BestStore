@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="boutique de test">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>{% block title %}BestStore{% endblock %}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img//favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{ asset('assets/img/site.webmanifest')}}">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+
+    <link href="{{ asset('assets/css/beststore.css') }}" rel="stylesheet" >
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-3">
+        <a class="navbar-brand" href="{{path('app_home')}}">BestStore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{path('app_products')}}">Nos produits</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{path('app_home')}}">Qui sommes-nous? </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{path('app_contact')}}">Contact </a>
+                </li>
+            </ul>
+            <div class="navbar-item-custom ms-auto">
+                {% if app.user %}
+                    <a href="{{ path('app_account') }}">Mon compte <small>({{ app.user.firstname }})</small></a> | <a href="{{ path('app_logout') }}">Deconnexion</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Connexion</a> | <a href="{{ path('app_register') }}">Inscription</a>
+                {% endif %}
+            </div>
+            <a href="{{ path('app_cart') }}"><img src="{{ asset('assets/img/shopping-cart.png') }}" alt="Mon panier" class="cart-icon"></a>
+
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+
+   {% if block('carousel') is defined %}
+       <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+           <div class="carousel-indicators">
+               {%  for key, header in headers %}
+                   <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{  key }}" {%  if key == 0 %}class="active"{% endif %} aria-current="true" aria-label="Slide {{  key }}"></button>
+
+               {% endfor %}
+
+           </div>
+           <div class="carousel-inner">
+               {% for key,header in headers %}
+               <div  class="carousel-item {%  if key == 0 %}active{% endif %}">
+                   <div class="conteneur" style="margin-top:50px;height:650px;background:url('/uploads/{{ header.illustration }}'); background-size: cover;">
+                        <div class="carousel-caption d-none d-md-block text-start">
+                              <h1>{{ header.title }}</h1>
+                              <p>{{ header.content }}</p>
+                              <p><a class="btn btn-lg btn-primary" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a></p>
+                       </div>
+                   </div>
+               </div>
+               {% endfor  %}
+
+           </div>
+           <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Previous</span>
+           </button>
+           <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Next</span>
+           </button>
+       </div>
+    <div class="container marketing " style="Margin-top:20px; ">
+
+   {% else %}
+        <div class="container marketing " style="Margin-top:80px; ">
+   {% endif %}
+
+
+    {% block content %}
+    {% endblock %}
+    </div><!-- /.container -->
+
+
+</main>
+<!-- FOOTER -->
+<footer class="footer-custom">
+    <p>&copy 2017-2022 BestStore <br>
+        <small>
+            la boutique française <br>
+            <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+        </small>
+    </p>
+
+
+</footer>
+
+
+</body>
+{% block script %}
+{% endblock %}
+</html>

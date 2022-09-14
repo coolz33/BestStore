@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande - BestStore{% endblock %}
+
+{% block content %}
+    <h1> Ma commande {{ order.reference }}</h1>
+    <a href="{{ path('app_account_order') }}">retour</a>
+    <hr>
+    <strong>Statut de la commande : </strong>
+    {%  if order.state ==1 %}
+        Commande payée
+    {%  elseif order.state ==2 %}
+        commande en cours de préparation
+    {%  elseif order.state ==3 %}
+        Commande expédiée
+    {% endif %}<br>
+    <strong>Commande passée le : </strong>{{ order.createdAt|date('d/m/Y') }}<br>
+    <strong>Référence de commande : </strong><small>{{ order.reference }}</small><br>
+    <strong>Transporteur choisi : </strong>{{ order.carriername }}<br>
+    <hr>
+    <strong>Détails :</strong>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix unitaire</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in order.orderDetails %}
+        <tr>
+            <td>{{ product.product }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ (product.price / 100)|number_format(2,',','.') }} €</td>
+            <td>{{ (product.total / 100)|number_format(2,',','.') }} €</td>
+
+        {%  endfor %}
+        </tbody>
+    </table>
+    <div class="text-end">
+        <strong>Sous-total : </strong>{{ (order.getTotal / 100)|number_format(2,',','.') }} €<br>
+        <strong>Livraison : </strong>{{ (order.carrierprice / 100)|number_format(2,',','.') }} €<br>
+        <strong>Total : </strong>{{ ((order.carrierprice + order.getTotal)  / 100)|number_format(2,',','.') }} €<br>
+
+    </div>
+
+
+
+{% endblock %}
